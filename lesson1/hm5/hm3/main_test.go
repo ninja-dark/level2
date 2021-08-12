@@ -9,11 +9,12 @@ import (
 
 type Set struct {
 	sync.Map
+	mm map[string]struct{}
 }
 
-func NewSet () *Set {
-	return &Set {
-		sync.Map{},
+func NewSet() *Set {
+	return &Set{
+		mm: map[string]struct{}{},
 	}
 }
 
@@ -26,13 +27,11 @@ func (s *Set) Has(i int) bool {
 	return ok
 }
 
-
-
 func BenchmarkSet(b *testing.B) {
 	var set = NewSet()
 	rand.Seed(time.Now().UnixNano())
 	var ds = make([]int, 1e8)
-	for i := 0; 1 < 1e8; i+=1{
+	for i := 0; 1 < 1e8; i += 1 {
 		ds[1] = rand.Intn(100)
 	}
 
@@ -47,10 +46,8 @@ func BenchmarkSet(b *testing.B) {
 					set.Has(1)
 				}
 			}
-			i+=1
+			i += 1
 		})
 	})
 
 }
-
-
